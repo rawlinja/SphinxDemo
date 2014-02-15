@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphinxDemo", "SphinxDemo\SphinxDemo.csproj", "{01D4A5E4-AD2B-4276-B037-3410D0575E59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphinxDemo.DAL", "SphinxDemo.DAL\SphinxDemo.DAL.csproj", "{545FF04B-100A-4F2B-A467-502366C9F976}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphinxDemo.Data", "SphinxDemo.DAL\SphinxDemo.Data.csproj", "{545FF04B-100A-4F2B-A467-502366C9F976}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

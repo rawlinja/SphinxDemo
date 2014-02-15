@@ -1,8 +1,36 @@
-﻿@{
-    ViewBag.Title = "Index";
-}
+﻿@using SphinxDemo.DAL
+@model List<CityModel> 
 
-<div id="cty">
+<form id="searchForm">
+    <input type="text" id="searchBox" name="searchBox"  placeholder="Enter keyword to search" />
+    <input type="button" id="searchButton" value="Search" />
+</form>
 
+<div id="resultBox">
 </div>
-<span><a>Previous: </a> <a>Next: </a></span>
+
+<script id="city-template" type="text/x-handlebars-template">   
+    {{#if cities}}
+    <table>
+    <thead>
+        <tr><th>Id</th>
+            <th>Name</th>
+            <th>CountryCode</th>
+            <th>District</th>
+            <th>Population</th>
+       </tr>
+        {{#each cities}}
+       <tr>
+            <td>{{Id}}</td>
+            <td>{{Name}}</td>
+            <td>{{CountryCode}}</td>
+            <td>{{District}}</td>
+            <td>{{Population}}</td>
+        </tr>
+        {{/each}}
+    </thead>
+    </table>
+    {{/if}}   
+</script>
+
+@Scripts.Render("~/bundles/index")

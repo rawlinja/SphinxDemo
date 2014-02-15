@@ -19,14 +19,29 @@ namespace SphinxDemo.DAL
 
     public class SphinxDataAccess
     {
-        public static List<CityModel> GetCityData()
+        public static List<CityModel> CityData()
         {
             List<CityModel> results;
-            const string connectionString = "Server=localhost; Port=9303";
+            const string connectionString = "Server=localhost; Port=9306";
+            string query = "SELECT * FROM city";
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                results = connection.Query<CityModel>("SELECT * FROM city").ToList();
+                results = connection.Query<CityModel>(query).ToList();
+            }
+
+            return results;
+        }
+
+        public static List<CityModel> CityDataByKeyword(string keyword)
+        {
+            List<CityModel> results;
+            string query = "SELECT * FROM city WHERE MATCH('" + keyword + "')";
+            const string connectionString = "Server=localhost; Port=9306";
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                results = connection.Query<CityModel>(query).ToList();
             }
 
             return results;

@@ -7,8 +7,8 @@
     <ProjectGuid>{545FF04B-100A-4F2B-A467-502366C9F976}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SphinxDemo.DAL</RootNamespace>
-    <AssemblyName>SphinxDemo.DAL</AssemblyName>
+    <RootNamespace>SphinxDemo.Data</RootNamespace>
+    <AssemblyName>SphinxDemo.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,7 +50,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

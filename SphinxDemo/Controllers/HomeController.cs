@@ -13,8 +13,22 @@ namespace SphinxDemo.Controllers
         // GET: /Home/
         public ActionResult Index()
         {
-            var model = DAL.SphinxDataAccess.GetCityData(); 
-            return View();
+            var model = DAL.SphinxDataAccess.CityData();
+            return View(model); 
+        
+        }
+
+        [HttpGet]
+        public JsonResult Search(string keyword)
+        {         
+
+            var model = DAL.SphinxDataAccess.CityDataByKeyword(keyword);
+            var result = new JsonResult 
+            {
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                Data = model
+            };
+            return result;
         }
     }
 }
