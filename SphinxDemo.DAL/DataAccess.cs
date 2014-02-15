@@ -1,33 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using Dapper;
+using SphinxDemo.Data.Models;
+using System;
 
-namespace SphinxDemo.DAL
+namespace SphinxDemo.Data
 {
-    public class CityModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string CountryCode { get; set; }
-        public string District { get; set; }
-        public int Population { get; set; }
-    }
-
+   
     public class SphinxDataAccess
-    {
+    {       
         public static List<CityModel> CityData()
         {
             List<CityModel> results;
             const string connectionString = "Server=localhost; Port=9306";
             string query = "SELECT * FROM city";
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                results = connection.Query<CityModel>(query).ToList();
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    results = connection.Query<CityModel>(query).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
 
             return results;
@@ -38,10 +36,44 @@ namespace SphinxDemo.DAL
             List<CityModel> results;
             string query = "SELECT * FROM city WHERE MATCH('" + keyword + "')";
             const string connectionString = "Server=localhost; Port=9306";
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                results = connection.Query<CityModel>(query).ToList();
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    results = connection.Query<CityModel>(query).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return results;
+        }
+
+        public static List<CityModel> CityDataByKeywordWithPaging(string keyword, int current, PageDirection direction)
+        {
+            const int PageSize = 20;
+
+            List<CityModel> results;
+            string query = (direction == PageDirection.Next) ? "SELECT * FROM city WHERE id > " + 
+                current + " AND id < " + (current + PageSize) + " AND MATCH('" + keyword + "') ORDER BY id ASC"
+                : "SELECT * FROM city WHERE id < " +
+                current + " AND id >= " + (current - PageSize) + " AND MATCH('" + keyword + "') ORDER BY id ASC";
+
+            const string connectionString = "Server=localhost; Port=9306";
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    results = connection.Query<CityModel>(query).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
 
             return results;

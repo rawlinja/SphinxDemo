@@ -1,4 +1,4 @@
-﻿@using SphinxDemo.DAL
+﻿@using SphinxDemo.Data.Models
 @model List<CityModel> 
 
 <form id="searchForm">
@@ -23,14 +23,16 @@
        <tr>
             <td>{{Id}}</td>
             <td>{{Name}}</td>
-            <td>{{CountryCode}}</td>
+            <td>{{CountryCode}}</td>    
             <td>{{District}}</td>
             <td>{{Population}}</td>
         </tr>
         {{/each}}
     </thead>
     </table>
-    {{/if}}   
+    <a id="prev" data-current="{{cities.prev}}" href="http://">Previous</a><span>...</span><a id="next" data-current="{{cities.next}}" href="http://">Next</a>
+    {{/if}} 
+          
 </script>
 
 @Scripts.Render("~/bundles/index")

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using SphinxDemo.DAL;
+using SphinxDemo.Data;
+using SphinxDemo.Data.Models;
 
 namespace SphinxDemo.Controllers
 {
@@ -13,22 +14,54 @@ namespace SphinxDemo.Controllers
         // GET: /Home/
         public ActionResult Index()
         {
-            var model = DAL.SphinxDataAccess.CityData();
+            var model = SphinxDataAccess.CityData();
             return View(model); 
         
         }
 
+
         [HttpGet]
         public JsonResult Search(string keyword)
-        {         
+        {      
 
-            var model = DAL.SphinxDataAccess.CityDataByKeyword(keyword);
-            var result = new JsonResult 
+            var models = SphinxDataAccess.CityDataByKeyword(keyword);          
+
+            var result = new JsonResult
             {
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet,
-                Data = model
+                Data = models
             };
             return result;
         }
+
+        [HttpPost]
+        public JsonResult Search(SearchModel searchModel)
+        {
+            List<CityModel> models = null;
+
+            if (searchModel.Direction == PageDirection.Previous || searchModel.Direction == PageDirection.Next)
+            {
+                models = SphinxDataAccess.CityDataByKeywordWithPaging(searchModel.Keyword,
+                    searchModel.Current, searchModel.Direction);
+            }
+            if (searchModel.Keyword != null && searchModel.Direction != PageDirection.None)
+            {
+                models = SphinxDataAccess.CityDataByKeywordWithPaging(searchModel.Keyword,
+                    searchModel.Current, searchModel.Direction);
+            }
+            else if(searchModel.Keyword != null)
+            {
+                models = SphinxDataAccess.CityDataByKeyword(searchModel.Keyword);
+            }
+
+            
+            var result = new JsonResult 
+            {
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                Data = models
+            };
+            return result;
+        }
+
     }
 }
