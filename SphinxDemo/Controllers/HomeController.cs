@@ -15,15 +15,12 @@ namespace SphinxDemo.Controllers
         public ActionResult Index()
         {
             var model = SphinxDataAccess.CityData();
-            return View(model); 
-        
+            return View(model);         
         }
-
 
         [HttpGet]
         public JsonResult Search(string keyword)
         {      
-
             var models = SphinxDataAccess.CityDataByKeyword(keyword);          
 
             var result = new JsonResult
@@ -42,18 +39,12 @@ namespace SphinxDemo.Controllers
             if (searchModel.Direction == PageDirection.Previous || searchModel.Direction == PageDirection.Next)
             {
                 models = SphinxDataAccess.CityDataByKeywordWithPaging(searchModel.Keyword,
-                    searchModel.Current, searchModel.Direction);
-            }
-            if (searchModel.Keyword != null && searchModel.Direction != PageDirection.None)
-            {
-                models = SphinxDataAccess.CityDataByKeywordWithPaging(searchModel.Keyword,
-                    searchModel.Current, searchModel.Direction);
-            }
+                    searchModel.Current, searchModel.Direction, searchModel.PageSize);
+            }          
             else if(searchModel.Keyword != null)
             {
-                models = SphinxDataAccess.CityDataByKeyword(searchModel.Keyword);
+                models = SphinxDataAccess.CityDataByKeyword(searchModel.Keyword, 1);
             }
-
             
             var result = new JsonResult 
             {
@@ -62,6 +53,5 @@ namespace SphinxDemo.Controllers
             };
             return result;
         }
-
     }
 }

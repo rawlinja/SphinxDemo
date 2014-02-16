@@ -18,5 +18,6 @@ namespace SphinxDemo.Data
         public string Keyword { get; set; }
         public int Current { get; set; }
         public PageDirection Direction { get; set; }
+        public int PageSize { get; set; }
     }
 }

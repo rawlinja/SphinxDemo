@@ -31,11 +31,13 @@ namespace SphinxDemo.Data
             return results;
         }
 
-        public static List<CityModel> CityDataByKeyword(string keyword)
+        public static List<CityModel> CityDataByKeyword(string keyword, int limit = 1000)
         {
             List<CityModel> results;
-            string query = "SELECT * FROM city WHERE MATCH('" + keyword + "')";
+
+            string query = "SELECT * FROM city WHERE MATCH('" + keyword + "') ORDER BY id ASC LIMIT " + limit;
             const string connectionString = "Server=localhost; Port=9306";
+            
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -52,15 +54,16 @@ namespace SphinxDemo.Data
             return results;
         }
 
-        public static List<CityModel> CityDataByKeywordWithPaging(string keyword, int current, PageDirection direction)
-        {
-            const int PageSize = 20;
-
+        public static List<CityModel> CityDataByKeywordWithPaging(string keyword, int current, 
+            PageDirection direction, int pageSize)
+        {           
             List<CityModel> results;
-            string query = (direction == PageDirection.Next) ? "SELECT * FROM city WHERE id > " + 
-                current + " AND id < " + (current + PageSize) + " AND MATCH('" + keyword + "') ORDER BY id ASC"
-                : "SELECT * FROM city WHERE id < " +
-                current + " AND id >= " + (current - PageSize) + " AND MATCH('" + keyword + "') ORDER BY id ASC";
+
+            int limit = (direction == PageDirection.Next) ? current + pageSize : current - pageSize;
+
+            string query = (direction == PageDirection.Next) ? "SELECT * FROM city WHERE id BETWEEN " + 
+                (current + 1) + " AND " + limit  + " AND MATCH('" + keyword + "') ORDER BY id ASC LIMIT " + pageSize
+                : "SELECT * FROM city WHERE id BETWEEN " + limit + " AND " + current + " AND MATCH('" + keyword + "') ORDER BY id ASC LIMIT " + pageSize;
 
             const string connectionString = "Server=localhost; Port=9306";
             try

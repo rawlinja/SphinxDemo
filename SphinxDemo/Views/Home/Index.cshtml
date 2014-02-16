@@ -10,7 +10,7 @@
 </div>
 
 <script id="city-template" type="text/x-handlebars-template">   
-    {{#if cities}}
+    {{#if items}}
     <table>
     <thead>
         <tr><th>Id</th>
@@ -19,7 +19,7 @@
             <th>District</th>
             <th>Population</th>
        </tr>
-        {{#each cities}}
+       {{#each items}}
        <tr>
             <td>{{Id}}</td>
             <td>{{Name}}</td>
@@ -29,8 +29,16 @@
         </tr>
         {{/each}}
     </thead>
-    </table>
-    <a id="prev" data-current="{{cities.prev}}" href="http://">Previous</a><span>...</span><a id="next" data-current="{{cities.next}}" href="http://">Next</a>
+    </table>    
+    <span>
+    {{#each pages}}
+    <a data-start="{{start}}" title={{start}} href="http://">{{page}}</a> |
+        {{#if isLast}}
+            <a id="next" data-start="{{start}}" href="http://">Next >></a>
+        {{/if}}    
+    {{/each}}  
+    <span>{{total}} items</span>
+    </span>      
     {{/if}} 
           
 </script>

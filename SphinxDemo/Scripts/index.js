@@ -1,6 +1,52 @@
 ﻿(function () {
     var searchButton = document.getElementById('searchButton'),
-        handlebars = window.Handlebars;
+        handlebars = window.Handlebars,
+        pager = new Pager(10);
+
+    function Pager(pageSize) {
+        var numberOfPages = 0,
+            collection = [];
+
+        this.pages = [];
+        this.total = 0;
+
+        this.removeItems = function () {
+            collection = [];
+            this.pages = [];
+            this.total = 0;
+        }
+        this.addItems = function (items) {
+            var index = 0;
+
+            items.forEach(function (p) {
+                collection.push(p);
+            });
+
+            this.total = collection.length;
+
+            numberOfPages = Math.ceil(collection.length / pageSize);
+
+            for (index = 1; index <= numberOfPages; ++index) {
+                start = (pageSize * index) - pageSize;
+                this.pages.push({
+                    page: index,
+                    start: start,
+                    isLast: index === numberOfPages ? true : false
+                });
+            }         
+
+        };
+
+        this.getItems = function (start) {
+            var results = {
+                items: collection.slice(start, start + pageSize),
+                pages: this.pages,
+                total: this.total
+            };
+
+            return results;
+        };
+    }
 
     function nextClickListener(evt) {         
         var searchBox = document.querySelector('#searchBox'),
@@ -9,7 +55,8 @@
             searchModel = {
                 keyword: keyword,
                 current: current,
-                direction: 2
+                direction: 2,
+                PageSize: 100
             };
         
         evt.preventDefault();        
@@ -24,7 +71,8 @@
             searchModel = {
                 keyword: keyword,
                 current: current,
-                direction: 1
+                direction: 1,
+                PageSize: 100
             };
 
         evt.preventDefault();      
@@ -53,29 +101,59 @@
         return searchByKeyword(urlEncoded);     
     }
 
+    function renderResults(results)
+    {
+        var templateSource = $("#city-template").html(),
+            template = handlebars.compile(templateSource),
+            html = template(results),
+            i = 0,
+            items;
+
+        $('#resultBox').html(html);
+
+        items = document.getElementById('resultBox').querySelectorAll('a');
+        for (i = 0 ; i < items.length; ++i) {
+            items[i].addEventListener('click', getPageEventListener, false);
+        }
+    }
+
+    function getPageEventListener(evt) {
+        var anchor = evt.target,
+            start,
+            results;
+
+        evt.preventDefault();     
+
+        start = parseInt(anchor.getAttribute('data-start'), 10);
+        results = pager.getItems(start);
+      
+        renderResults(results);
+    }
+
     function searchByKeyword(keyword){
-        var xhr = new XMLHttpRequest(),
-            templateSource = $("#city-template").html(),
-            template = handlebars.compile(templateSource);
+        var xhr = new XMLHttpRequest();
 
         xhr.onreadystatechange = function () {
-            var data, html, cities;
+            var data,
+                cities;
+
             if (xhr.status == 200) {
                 if (xhr.readyState == xhr.DONE) {
                     data = xhr.response;
-                    if (data){
+                    if (data) {
                         cities = JSON.parse(data);
                         if (cities.length > 0) {
-                            cities.prev = cities[0].Id;
-                            cities.next = cities[cities.length - 1].Id;
 
-                            html = template({
-                                cities: cities
+                            //pager = new Pager(10);
+
+                            pager.removeItems();
+                            pager.addItems(cities);                      
+
+                            renderResults({
+                                items: cities,
+                                pages: pager.pages,
+                                total: pager.total,
                             });
-
-                            $('#resultBox').html(html);
-                            document.querySelector('#prev').addEventListener('click', prevClickListener, false);
-                            document.querySelector('#next').addEventListener('click', nextClickListener, false);
                         }
                     }
                 }
@@ -89,29 +167,27 @@
 
     function searchByModel(searchModel) {
         var xhr = new XMLHttpRequest(),
-            url = '/home/search',
-            templateSource = $("#city-template").html(),
-            template = handlebars.compile(templateSource);
+            url = '/home/search';
 
         xhr.onreadystatechange = function () {
-            var data, html, cities;
+            var data,
+                cities;
+            0
             if (xhr.status == 200) {
                 if (xhr.readyState == xhr.DONE) {
                     data = xhr.response;
                     if (data) {
+
                         cities = JSON.parse(data);
+
                         if (cities.length > 0) {
-                            cities.prev = cities[0].Id;
-                            cities.next = cities[cities.length - 1].Id;
+                            pager.removeItems();
+                            pager.addItems(cities);
 
-                            html = template({
-                                cities: cities
+                            renderResults({
+                                items: cities,
+                                pages: pager.pages
                             });
-
-                            $('#resultBox').html(html);
-                            document.querySelector('#next').addEventListener('click', nextClickListener, false);
-                            document.querySelector('#prev').addEventListener('click', prevClickListener, false);
-
                         }
                     }
                 }
@@ -128,4 +204,3 @@
      
 
 }());
-
