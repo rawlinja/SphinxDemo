@@ -39,7 +39,7 @@ namespace SphinxDemo.Controllers
             if (searchModel.Direction == PageDirection.Previous || searchModel.Direction == PageDirection.Next)
             {
                 models = SphinxDataAccess.CityDataByKeywordWithPaging(searchModel.Keyword,
-                    searchModel.Current, searchModel.Direction, searchModel.PageSize);
+                    searchModel.Start, searchModel.Direction, searchModel.PageSize);
             }          
             else if(searchModel.Keyword != null)
             {

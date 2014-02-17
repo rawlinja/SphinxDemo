@@ -1,7 +1,4 @@
-﻿@using SphinxDemo.Data.Models
-@model List<CityModel> 
-
-<form id="searchForm">
+﻿<form id="searchForm">
     <input type="text" id="searchBox" name="searchBox"  placeholder="Enter keyword to search" />
     <input type="button" id="searchButton" value="Search" />
 </form>
@@ -34,7 +31,9 @@
     {{#each pages}}
     <a data-start="{{start}}" title={{start}} href="http://">{{page}}</a> |
         {{#if isLast}}
-            <a id="next" data-start="{{start}}" href="http://">Next >></a>
+            {{#if showNext}}
+                <a id="next" title="{{end}}" data-start="{{end}}" href="http://">Next >></a>
+            {{/if}}
         {{/if}}    
     {{/each}}  
     <span>{{total}} items</span>

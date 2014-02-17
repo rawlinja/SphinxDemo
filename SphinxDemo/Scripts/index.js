@@ -26,37 +26,36 @@
 
             numberOfPages = Math.ceil(collection.length / pageSize);
 
+            this.pages = [];
+
             for (index = 1; index <= numberOfPages; ++index) {
-                start = (pageSize * index) - pageSize;
+                start = pageSize * index - pageSize;
                 this.pages.push({
                     page: index,
                     start: start,
-                    isLast: index === numberOfPages ? true : false
+                    end: pageSize * numberOfPages,
+                    isLast: index === numberOfPages ? true : false,
+                    showNext: collection.length >= numberOfPages * pageSize ? true: false
                 });
             }         
 
         };
 
         this.getItems = function (start) {
-            var results = {
-                items: collection.slice(start, start + pageSize),
-                pages: this.pages,
-                total: this.total
-            };
-
-            return results;
+            var items = collection.slice(start, start + pageSize);
+            return items;
         };
     }
 
     function nextClickListener(evt) {         
         var searchBox = document.querySelector('#searchBox'),
             keyword = searchBox.value,
-            current = evt.target.getAttribute('data-current'),
+            start = evt.target.getAttribute('data-start'),
             searchModel = {
                 keyword: keyword,
-                current: current,
+                start: start,
                 direction: 2,
-                PageSize: 100
+                PageSize: 10
             };
         
         evt.preventDefault();        
@@ -67,10 +66,10 @@
     function prevClickListener(evt) {
         var searchBox = document.querySelector('#searchBox'),
             keyword = searchBox.value,
-            current = evt.target.getAttribute('data-current'),
+            start = evt.target.getAttribute('data-current'),
             searchModel = {
                 keyword: keyword,
-                current: current,
+                start: start,
                 direction: 1,
                 PageSize: 100
             };
@@ -101,36 +100,7 @@
         return searchByKeyword(urlEncoded);     
     }
 
-    function renderResults(results)
-    {
-        var templateSource = $("#city-template").html(),
-            template = handlebars.compile(templateSource),
-            html = template(results),
-            i = 0,
-            items;
-
-        $('#resultBox').html(html);
-
-        items = document.getElementById('resultBox').querySelectorAll('a');
-        for (i = 0 ; i < items.length; ++i) {
-            items[i].addEventListener('click', getPageEventListener, false);
-        }
-    }
-
-    function getPageEventListener(evt) {
-        var anchor = evt.target,
-            start,
-            results;
-
-        evt.preventDefault();     
-
-        start = parseInt(anchor.getAttribute('data-start'), 10);
-        results = pager.getItems(start);
-      
-        renderResults(results);
-    }
-
-    function searchByKeyword(keyword){
+    function searchByKeyword(keyword) {
         var xhr = new XMLHttpRequest();
 
         xhr.onreadystatechange = function () {
@@ -142,18 +112,9 @@
                     data = xhr.response;
                     if (data) {
                         cities = JSON.parse(data);
+
                         if (cities.length > 0) {
-
-                            //pager = new Pager(10);
-
-                            pager.removeItems();
-                            pager.addItems(cities);                      
-
-                            renderResults({
-                                items: cities,
-                                pages: pager.pages,
-                                total: pager.total,
-                            });
+                            renderResults(cities, true);
                         }
                     }
                 }
@@ -165,6 +126,78 @@
         xhr.send();
     }
 
+    function renderResults(results, isNewResult)
+    {
+        var next,
+            templateSource = $("#city-template").html(),
+            template = handlebars.compile(templateSource),
+            html;
+
+        if (isNewResult) {
+            pager.removeItems();
+            pager.addItems(results);
+        }
+
+        html = template({
+            items: results,
+            pages: pager.pages,
+            total: pager.total,
+        });
+
+        $('#resultBox').html(html);    
+
+        items = document.getElementById('resultBox').querySelectorAll('a:not([id=next])');
+       
+        for (i = 0 ; i < items.length; ++i) {
+            items[i].addEventListener('click', getPageEventListener, false);
+        }
+        
+        next = document.getElementById('next');
+        if (next) {
+            next.addEventListener('click', nextClickListener, false);
+        }
+       
+    }
+
+    function renderSearchModelResults(results) {
+        var templateSource = $("#city-template").html(),
+            template = handlebars.compile(templateSource),
+            html;
+
+        pager.addItems(results);        
+
+        html = template({
+            items: results,
+            pages: pager.pages,
+            total: pager.total,
+        });
+
+        $('#resultBox').html(html);
+
+        items = document.getElementById('resultBox').querySelectorAll('a:not([id=next])');
+
+        for (i = 0 ; i < items.length; ++i) {
+            items[i].addEventListener('click', getPageEventListener, false);
+        }
+
+        document.getElementById('next').addEventListener('click', nextClickListener, false);
+
+    }
+
+    function getPageEventListener(evt) {
+        var anchor = evt.target,
+            start,
+            results;
+
+        evt.preventDefault();     
+
+        start = parseInt(anchor.getAttribute('data-start'), 10);
+
+        results = pager.getItems(start);
+      
+        renderResults(results, false);
+    }
+
     function searchByModel(searchModel) {
         var xhr = new XMLHttpRequest(),
             url = '/home/search';
@@ -172,22 +205,14 @@
         xhr.onreadystatechange = function () {
             var data,
                 cities;
-            0
+
             if (xhr.status == 200) {
                 if (xhr.readyState == xhr.DONE) {
                     data = xhr.response;
                     if (data) {
-
                         cities = JSON.parse(data);
-
                         if (cities.length > 0) {
-                            pager.removeItems();
-                            pager.addItems(cities);
-
-                            renderResults({
-                                items: cities,
-                                pages: pager.pages
-                            });
+                            renderSearchModelResults(cities);
                         }
                     }
                 }
