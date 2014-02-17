@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SphinxDemo.Data
+namespace SphinxDemo.Data.Models
 {
     public enum PageDirection : int
     {
@@ -16,7 +16,7 @@ namespace SphinxDemo.Data
     public class SearchModel
     {
         public string Keyword { get; set; }
-        public int Current { get; set; }
+        public int Start { get; set; }
         public PageDirection Direction { get; set; }
         public int PageSize { get; set; }
     }

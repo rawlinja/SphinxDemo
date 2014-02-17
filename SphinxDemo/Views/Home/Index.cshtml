@@ -6,7 +6,8 @@
 <div id="resultBox">
 </div>
 
-<script id="city-template" type="text/x-handlebars-template">   
+<script id="city-template" type="text/x-handlebars" data-template-name="city-template"> 
+     
     {{#if items}}
     <table>
     <thead>
@@ -42,4 +43,5 @@
           
 </script>
 
+@Scripts.Render("~/bundles/handlebars")
 @Scripts.Render("~/bundles/index")

@@ -1,4 +1,5 @@
 ﻿(function () {
+
     var searchButton = document.getElementById('searchButton'),
         handlebars = window.Handlebars,
         pager = new Pager(10);
@@ -15,6 +16,7 @@
             this.pages = [];
             this.total = 0;
         }
+
         this.addItems = function (items) {
             var index = 0;
 
@@ -58,9 +60,9 @@
                 PageSize: 10
             };
         
-        evt.preventDefault();        
+        evt.preventDefault();
 
-        searchByModel(searchModel);       
+        searchByModel(searchModel);
     }
 
     function prevClickListener(evt) {
@@ -153,6 +155,7 @@
         }
         
         next = document.getElementById('next');
+
         if (next) {
             next.addEventListener('click', nextClickListener, false);
         }
@@ -180,7 +183,11 @@
             items[i].addEventListener('click', getPageEventListener, false);
         }
 
-        document.getElementById('next').addEventListener('click', nextClickListener, false);
+        next = document.getElementById('next');
+
+        if (next) {
+            next.addEventListener('click', nextClickListener, false);
+        }
 
     }
 
@@ -225,7 +232,6 @@
     }   
 
     searchButton.addEventListener('click', searchButtonClickListener, false);
-    searchBox.addEventListener('input', searchBoxInputListener, false);
-     
+    searchBox.addEventListener('input', searchBoxInputListener, false);     
 
 }());

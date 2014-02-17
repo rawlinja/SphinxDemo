@@ -54,16 +54,16 @@ namespace SphinxDemo.Data
             return results;
         }
 
-        public static List<CityModel> CityDataByKeywordWithPaging(string keyword, int current, 
+        public static List<CityModel> CityDataByKeywordWithPaging(string keyword, int start, 
             PageDirection direction, int pageSize)
         {           
             List<CityModel> results;
 
-            int limit = (direction == PageDirection.Next) ? current + pageSize : current - pageSize;
+            int limit = (direction == PageDirection.Next) ? start + pageSize : start - pageSize;
 
-            string query = (direction == PageDirection.Next) ? "SELECT * FROM city WHERE id BETWEEN " + 
-                (current + 1) + " AND " + limit  + " AND MATCH('" + keyword + "') ORDER BY id ASC LIMIT " + pageSize
-                : "SELECT * FROM city WHERE id BETWEEN " + limit + " AND " + current + " AND MATCH('" + keyword + "') ORDER BY id ASC LIMIT " + pageSize;
+            string query = (direction == PageDirection.Next) ? "SELECT * FROM city WHERE id > " + 
+                start +  " AND MATCH('" + keyword + "') ORDER BY id ASC LIMIT " + pageSize
+                : "SELECT * FROM city WHERE id BETWEEN " + limit + " AND " + start + " AND MATCH('" + keyword + "') ORDER BY id ASC LIMIT " + pageSize;
 
             const string connectionString = "Server=localhost; Port=9306";
             try
