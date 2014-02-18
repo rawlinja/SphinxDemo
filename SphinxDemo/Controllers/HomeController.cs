@@ -1,25 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using SphinxDemo.Data;
-using SphinxDemo.Data.Models;
+using SphinxDemo.Services;
+using SphinxDemo.Services.Models;
 
-namespace SphinxDemo.Controllers
+namespace SphinxDemo.WebUI.Controllers
 {
     public class HomeController : Controller
     {
         //
         // GET: /Home/
+        [HttpGet]
         public ActionResult Index()
         {
-            var model = SphinxDataAccess.CityData();
+            var model = repository.Search();
             return View(model);         
         }
-
         [HttpGet]
         public JsonResult Search(string keyword)
         {      
-            var models = SphinxDataAccess.CityDataByKeyword(keyword);          
-
+            var models = repository.SearchByKeyword(keyword);           
             var result = new JsonResult
             {
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet,
@@ -27,20 +26,18 @@ namespace SphinxDemo.Controllers
             };
             return result;
         }
-
         [HttpPost]
         public JsonResult Search(SearchModel searchModel)
         {
-            List<CityModel> models = null;
+            IEnumerable<CityModel> models = null;
 
             if (searchModel.Direction == PageDirection.Previous || searchModel.Direction == PageDirection.Next)
             {
-                models = SphinxDataAccess.CityDataByKeywordWithPaging(searchModel.Keyword,
-                    searchModel.Start, searchModel.Direction, searchModel.PageSize);
+                models = repository.SearchByKeywordWithPaging(searchModel);
             }          
             else if(searchModel.Keyword != null)
             {
-                models = SphinxDataAccess.CityDataByKeyword(searchModel.Keyword, 1);
+                models = repository.SearchByKeyword(searchModel.Keyword);
             }
             
             var result = new JsonResult 
@@ -50,5 +47,7 @@ namespace SphinxDemo.Controllers
             };
             return result;
         }
+
+        Repository<CityModel> repository = Repository<CityModel>.Instance;
     }
 }

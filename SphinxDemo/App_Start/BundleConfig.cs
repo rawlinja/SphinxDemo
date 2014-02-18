@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace SphinxDemo
+namespace SphinxDemo.WebUI
 {
     public class BundleConfig
     {

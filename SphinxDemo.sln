@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphinxDemo", "SphinxDemo\SphinxDemo.csproj", "{01D4A5E4-AD2B-4276-B037-3410D0575E59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphinxDemo.WebUI", "SphinxDemo\SphinxDemo.WebUI.csproj", "{01D4A5E4-AD2B-4276-B037-3410D0575E59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphinxDemo.Data", "SphinxDemo.DAL\SphinxDemo.Data.csproj", "{545FF04B-100A-4F2B-A467-502366C9F976}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphinxDemo.Services", "SphinxDemo.Services\SphinxDemo.Services.csproj", "{31483123-0B2B-4AF6-A929-6F316B4B88CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +21,10 @@ Global
 		{545FF04B-100A-4F2B-A467-502366C9F976}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{545FF04B-100A-4F2B-A467-502366C9F976}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{545FF04B-100A-4F2B-A467-502366C9F976}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31483123-0B2B-4AF6-A929-6F316B4B88CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31483123-0B2B-4AF6-A929-6F316B4B88CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31483123-0B2B-4AF6-A929-6F316B4B88CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31483123-0B2B-4AF6-A929-6F316B4B88CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

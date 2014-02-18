@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SphinxDemo.Data.Models
+namespace SphinxDemo.Services.Models
 {
     public enum PageDirection : int
     {

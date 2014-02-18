@@ -2,38 +2,15 @@
 using System.Linq;
 using MySql.Data.MySqlClient;
 using Dapper;
-using SphinxDemo.Data.Models;
 using System;
 
 namespace SphinxDemo.Data
-{
-   
+{   
     public class SphinxDataAccess
-    {       
-        public static List<CityModel> CityData()
+    { 
+        public static IEnumerable<T> SearchByKeyword<T>(string keyword, int limit = 100) 
         {
-            List<CityModel> results;
-            const string connectionString = "Server=localhost; Port=9306";
-            string query = "SELECT * FROM city";
-            try
-            {
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    results = connection.Query<CityModel>(query).ToList();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return results;
-        }
-
-        public static List<CityModel> CityDataByKeyword(string keyword, int limit = 1000)
-        {
-            List<CityModel> results;
+            IEnumerable<T> results;
 
             string query = "SELECT * FROM city WHERE MATCH('" + keyword + "') ORDER BY id ASC LIMIT " + limit;
             const string connectionString = "Server=localhost; Port=9306";
@@ -43,7 +20,7 @@ namespace SphinxDemo.Data
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    results = connection.Query<CityModel>(query).ToList();
+                    results = connection.Query<T>(query);
                 }
             }
             catch (Exception)
@@ -54,24 +31,25 @@ namespace SphinxDemo.Data
             return results;
         }
 
-        public static List<CityModel> CityDataByKeywordWithPaging(string keyword, int start, 
-            PageDirection direction, int pageSize)
+        public static IEnumerable<T> SearchByKeywordWithPaging<T>(string keyword, int start, 
+            int direction, int pageSize)
         {           
-            List<CityModel> results;
+            IEnumerable<T> results;            
 
-            int limit = (direction == PageDirection.Next) ? start + pageSize : start - pageSize;
+            int limit = (direction == Next) ? start + pageSize : start - pageSize;
 
-            string query = (direction == PageDirection.Next) ? "SELECT * FROM city WHERE id > " + 
+            string query = (direction == Next) ? "SELECT * FROM city WHERE id > " + 
                 start +  " AND MATCH('" + keyword + "') ORDER BY id ASC LIMIT " + pageSize
                 : "SELECT * FROM city WHERE id BETWEEN " + limit + " AND " + start + " AND MATCH('" + keyword + "') ORDER BY id ASC LIMIT " + pageSize;
 
             const string connectionString = "Server=localhost; Port=9306";
+           
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    results = connection.Query<CityModel>(query).ToList();
+                    results = connection.Query<T>(query);
                 }
             }
             catch (Exception)
@@ -81,5 +59,7 @@ namespace SphinxDemo.Data
 
             return results;
         }
+
+        public const int Next = 2;
     }
 }

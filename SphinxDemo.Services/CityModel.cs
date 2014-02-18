@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SphinxDemo.Data.Models
+namespace SphinxDemo.Services.Models
 {
     public class CityModel
     {
