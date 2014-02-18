@@ -1,9 +1,51 @@
-﻿<div id="searchDiv">
-    <input type="text" id="searchBox" name="searchBox"  placeholder="Enter keyword to search" />
-    <input type="button" id="searchButton" value="Search" />
+﻿<style>
+    .search-container {        
+        border: 1px dotted gray;
+        margin: 5px;
+    }
+    div#search-menu li {
+        display:inline;
+        border: 1px dashed gray;
+        padding: 10px;  
+        margin-right: 5px;
+        text-decoration: none; 
+        list-style: none;
+    }
+    div#search-menu li:hover {
+       background-color: lightgray;
+    }
+    div#search-menu li a {
+        text-decoration: none;
+    }   
+    .search-options {
+        padding: 10px;
+    }
+    .invisible {
+        display:none;
+    }    
+    .items-container {
+        border: 1px dotted green;
+        margin: 10px;
+        padding: 10px;
+    }
+    tbody tr:nth-child(2n) {
+        background-color: lightgray;
+    }
+</style>
+<div class="search-container">
+    <div id="search-menu" placeholder="Select table to search">
+        <ul>
+            <li><a href="">City</a></li>
+            <li><a href="">Country</a></li>
+        </ul>
+    </div>
+    <div class="search-options">
+        <input type="text" id="searchBox" name="searchBox"  placeholder="Enter keyword to search" />
+        <input type="button" id="searchButton" value="Search" />
+    </div>    
 </div>
 
-<div id="resultBox">
+<div id="resultBox" class="items-container invisible">
 </div>
 
 <script id="city-template" type="text/x-handlebars" data-template-name="city-template">
@@ -17,6 +59,8 @@
             <th>District</th>
             <th>Population</th>
        </tr>
+     </thead>
+     <tbody>
        {{#each items}}
        <tr>
             <td>{{Id}}</td>
@@ -26,7 +70,7 @@
             <td>{{Population}}</td>
         </tr>
         {{/each}}
-    </thead>
+    </tbody>
     </table>    
     <span>
     {{#each pages}}
@@ -39,8 +83,7 @@
     {{/each}}  
     <span>{{total}} items</span>
     </span>      
-    {{/if}} 
-          
+    {{/if}}           
 </script>
 
 @Scripts.Render("~/bundles/handlebars")

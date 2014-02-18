@@ -145,7 +145,11 @@
                 pages: pager.pages,
                 total: pager.total,
             });
-            $('#resultBox').html(html);
+
+            $('#resultBox').html(html);            
+            if ($('#resultBox').hasClass('invisible')) {
+                $('#resultBox').removeClass('invisible');
+            }
             $('a:not([id=next])').on('click', pageClicked);
             $('#next').on('click', nextClicked);
         }
@@ -163,6 +167,9 @@
                 total: pager.total,
             });
             $('#resultBox').html(html);
+            if($('#resultBox').hasClass('invisible')){
+                $('#resultBox').removeClass('invisible');                
+            }
             $('a:not([id=next])').on('click', pageClicked);
             $('#next').on('click', nextClicked);
         }        
