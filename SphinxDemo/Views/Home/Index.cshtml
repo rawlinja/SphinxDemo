@@ -35,7 +35,7 @@
 <div class="search-container">
     <div id="search-menu" placeholder="Select table to search">
         <ul>
-            <li><a href="">City</a></li>
+            <li><img src="" title="City" /></li>
             <li><a href="">Country</a></li>
         </ul>
     </div>
@@ -45,11 +45,12 @@
     </div>    
 </div>
 
-<div id="resultBox" class="items-container invisible">
+<div id="results" class="items-container invisible">
+</div>
+<div id="pages" class="items-container invisible">
 </div>
 
-<script id="city-template" type="text/x-handlebars" data-template-name="city-template">
-     
+    <script id="results-template" type="text/x-handlebars" data-template-name="results-template">     
     {{#if items}}
     <table>
     <thead>
@@ -71,10 +72,15 @@
         </tr>
         {{/each}}
     </tbody>
-    </table>    
+    </table>
+    {{/if}} 
+    </script>
+    
+    
+    <script id="pages-template" type="text/x-handlebars" data-template-name="pages-template"> 
     <span>
     {{#each pages}}
-    <a data-start="{{start}}" title={{start}} href="http://">{{page}}</a> |
+    <a data-start="{{start}}" data-page="{{number}}" title={{start}} href="http://">{{number}}</a> |
         {{#if isLast}}
             {{#if showNext}}
                 <a id="next" title="{{end}}" data-start="{{end}}" href="http://">Next >></a>
@@ -82,9 +88,8 @@
         {{/if}}    
     {{/each}}  
     <span>{{total}} items</span>
-    </span>      
-    {{/if}}           
-</script>
+    </span>             
+    </script>
 
 @Scripts.Render("~/bundles/handlebars")
 @Scripts.Render("~/bundles/index")
