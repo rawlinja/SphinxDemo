@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SphinxDemo.Data;
 using SphinxDemo.Services.Models;
+using SphinxDemo.Data.Models;
 
 namespace SphinxDemo.Services
 {
-    public class Repository<T>
+    public class Repository<T> where T: IModel
     {
         private Repository() { }
          
@@ -21,18 +18,20 @@ namespace SphinxDemo.Services
             }
         }
         public IEnumerable<T> SearchByKeywordWithPaging(SearchModel searchModel){
-            var items = SphinxDataAccess.SearchByKeywordWithPaging<T>(searchModel.Keyword,
-                    searchModel.Start, (int) searchModel.Direction, searchModel.PageSize);
+            var items = SphinxDataAccess.SearchByKeywordWithPaging<T>(StrategyFactory<T>.SearchStrategy(FactoryModel.City),
+                searchModel.Keyword, searchModel.Start, (int) searchModel.Direction, searchModel.PageSize);
             return items;
         }
-        public IEnumerable<T> SearchByKeyword(string keyword)
+        public IEnumerable<T> SearchByKeyword(string keyword) 
         {
-            var items = SphinxDataAccess.SearchByKeyword<T>(keyword);
+            var items = SphinxDataAccess.SearchByKeyword<T>(StrategyFactory<T>.SearchStrategy(FactoryModel.City),
+                keyword);
             return items;
         }
         public IEnumerable<T> Search()
         {
-            var items = SphinxDataAccess.SearchByKeyword<T>("");
+            var items = SphinxDataAccess.SearchByKeyword<T>(
+                StrategyFactory<T>.SearchStrategy(FactoryModel.City), "");
             return items;
         }
 

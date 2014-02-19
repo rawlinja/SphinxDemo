@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using SphinxDemo.Services;
 using SphinxDemo.Services.Models;
+using SphinxDemo.Data.Models;
 
 namespace SphinxDemo.WebUI.Controllers
 {
@@ -29,7 +30,7 @@ namespace SphinxDemo.WebUI.Controllers
         [HttpPost]
         public JsonResult Search(SearchModel searchModel)
         {
-            IEnumerable<CityModel> models = null;
+            IEnumerable<IModel> models = null;
 
             if (searchModel.Direction == PageDirection.Previous || searchModel.Direction == PageDirection.Next)
             {
@@ -48,6 +49,6 @@ namespace SphinxDemo.WebUI.Controllers
             return result;
         }
 
-        Repository<CityModel> repository = Repository<CityModel>.Instance;
+        Repository<IModel> repository = Repository<IModel>.Instance;
     }
 }

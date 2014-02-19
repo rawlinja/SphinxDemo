@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SphinxDemo.Services.Models
+namespace SphinxDemo.Data.Models
 {
-    public class CityModel
+    public class CityModel : IModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

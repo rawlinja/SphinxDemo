@@ -46,8 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CityModel.cs" />
     <Compile Include="DataAccess.cs" />
+    <Compile Include="IModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
