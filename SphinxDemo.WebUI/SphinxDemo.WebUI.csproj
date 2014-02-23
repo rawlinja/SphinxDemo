@@ -234,7 +234,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\City.sql" />
+    <Content Include="App_Data\City.txt" />
+    <Content Include="App_Data\Country.txt" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -365,7 +366,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SphinxDemo.DAL\SphinxDemo.Data.csproj">
+    <ProjectReference Include="..\SphinxDemo.Data\SphinxDemo.Data.csproj">
       <Project>{545ff04b-100a-4f2b-a467-502366c9f976}</Project>
       <Name>SphinxDemo.Data</Name>
     </ProjectReference>

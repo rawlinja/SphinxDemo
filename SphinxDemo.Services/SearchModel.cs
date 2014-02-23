@@ -19,5 +19,6 @@ namespace SphinxDemo.Services.Models
         public int Start { get; set; }
         public PageDirection Direction { get; set; }
         public int PageSize { get; set; }
+        public FactoryModel MenuSelection { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using SphinxDemo.Data.Models;
 
 namespace SphinxDemo.WebUI.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : Controller 
     {
         //
         // GET: /Home/
@@ -32,13 +32,15 @@ namespace SphinxDemo.WebUI.Controllers
         {
             IEnumerable<IModel> models = null;
 
-            if (searchModel.Direction == PageDirection.Previous || searchModel.Direction == PageDirection.Next)
+            searchModel.Keyword = (searchModel.Keyword == null) ? string.Empty: searchModel.Keyword;
+
+            if (searchModel.Direction != PageDirection.None)
             {
-                models = repository.SearchByKeywordWithPaging(searchModel);
+                models = repository.SearchByModelWithPaging(searchModel);
             }          
-            else if(searchModel.Keyword != null)
+            else if(searchModel.MenuSelection != FactoryModel.None) 
             {
-                models = repository.SearchByKeyword(searchModel.Keyword);
+                models = repository.SearchByModel(searchModel);
             }
             
             var result = new JsonResult 

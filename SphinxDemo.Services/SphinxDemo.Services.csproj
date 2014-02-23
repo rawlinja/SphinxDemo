@@ -45,7 +45,7 @@
     <Compile Include="SearchModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SphinxDemo.DAL\SphinxDemo.Data.csproj">
+    <ProjectReference Include="..\SphinxDemo.Data\SphinxDemo.Data.csproj">
       <Project>{545ff04b-100a-4f2b-a467-502366c9f976}</Project>
       <Name>SphinxDemo.Data</Name>
     </ProjectReference>
