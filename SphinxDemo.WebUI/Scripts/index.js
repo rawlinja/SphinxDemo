@@ -1,5 +1,5 @@
 ﻿(function () {
-    
+
     function Pager(name, pageSize) {
         var numberOfPages = 0,
             collection = [];
@@ -176,8 +176,8 @@
                     }                    
                 },
                 menuClicked = function (evt) {
-                    $('input[type=radio]:checked').parent('label').addClass('lightgray-background');
-                    $('input:not([type=radio]:checked)').parent('label').removeClass('lightgray-background');                  
+                    $('input[type=radio]:checked').parent('label').addClass('active');
+                    $('input:not([type=radio]:checked)').parent('label').removeClass('active');                  
                     searchButtonClicked(evt);
                 };
 
@@ -316,16 +316,18 @@
         return {
             setupEventListeners: setupEventListeners
         }
-    }   
+    }      
 
     function Application() {
-        this.start = function () {
+        function start() {
             var ui = new UI();
             ui.setupEventListeners();
         }
+        return {
+            start: start,
+            Pager: Pager
+        }
     }
 
-    var app = new Application();
-    app.start();
-
+    window.Application = Application || {};
 } ());

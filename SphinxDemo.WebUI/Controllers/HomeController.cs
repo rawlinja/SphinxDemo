@@ -51,6 +51,12 @@ namespace SphinxDemo.WebUI.Controllers
             return result;
         }
 
+        public ActionResult Test()
+        {
+
+            return View();
+        }
+
         Repository<IModel> repository = Repository<IModel>.Instance;
     }
 }

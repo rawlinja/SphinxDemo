@@ -1,158 +1,110 @@
-﻿<style>
-    .search-container {        
-        border: 1px dotted gray;
-        margin: 5px;
-    }
-    div#search-menu li {
-        display:inline;        
-        margin-right: 5px;       
-        list-style: none;
-    }  
-    div#search-menu li a {
-        text-decoration: none;
-    }
-    #search-category input[type=checkbox] {
-        background-color: red;      
-    }
-    #search-category input[type=checkbox]:hover {
-       background-color: red;
-    }
-    .search-options {
-        padding: 10px;
-    }
-    .invisible {
-        display:none;
-    }    
-    .items-container {
-        border: 1px dotted green;
-        margin: 10px;
-        padding: 10px;
-    }
-    tbody tr:nth-child(2n) {
-        background-color: lightgray;
-    }
-    .search-category {
-        background-color: red;
-    }
-    .category-name {
-        color: red;
-        font-size: 1.5em;
-    }
-    input[type=radio]:checked {
-        background-color: red;
-    }
-    input[type=radio] {
-	    display: none;
-    }
-    label
-    {
-        border: 1px dashed green;
-        height: 50px;
-        width:  50px;        
-        text-decoration: none;
-        display: inline-block;
-	    cursor: pointer;
-	    position: relative;	 	    
-    }
-    .lightgray-background
-    {
-        background-color: lightgray;
-    }    
-</style>
-<div class="search-container">
-    <form>
-        <div id="search-menu" placeholder="Select table to search">
-            <ul id="search-category">
-                <li>                
-                    <label for"city">City
-                        <input id="city" type="radio" title="City" value="1"  name="category" />
-                    </label> 
-                </li>
-                <li><label for"country">Country
-                    <input id="country" type="radio" title="Country" value="2" name="category" />              
-                    </label>
-                </li>                
-            </ul>
-        </div>
-    </form>
-    <div class="search-options">
-        <input type="text" id="searchBox" name="searchBox"  placeholder="Enter keyword to search" />
-        <input type="button" id="searchButton" value="Search" />
-    </div>    
+﻿<div class="container">
+    <nav class="span-24" role="navigation">
+        <ul>
+            <li>     
+                <label for="city">    
+                    City <input type="radio" id="city" name="navradio" value="1" />
+                </label>                    
+            </li>
+            <li>                   
+                <label for="country">    
+                    Country <input type="radio" id="country" name="navradio" value="2" />
+                </label>
+            </li>                
+        </ul>
+    </nav>    
+    
+
+    <form class="search span-24">
+        <fieldset>
+            <input type="text" id="searchBox" name="searchBox"  placeholder="Enter keyword to search" />
+            <input type="submit" id="searchButton" value="Search" />
+        </fieldset>       
+    </form>  
+
+    <div id="results" class="span-24 invisible">
+    </div>
+    <div id="pages" class="span=24 invisible">
+    </div>
 </div>
 
-<div id="results" class="items-container invisible">
-</div>
-<div id="pages" class="items-container invisible">
-</div>
 
-    <script id="city-template" type="text/x-handlebars" data-template-name="city-template">     
-    {{#if items}}
-    <table>
-    <thead>
-        <tr><th>Id</th>
-            <th>Name</th>
-            <th>CountryCode</th>
-            <th>District</th>
-            <th>Population</th>
-       </tr>
-     </thead>
-     <tbody>
-       {{#each items}}
-       <tr>
-            <td>{{Id}}</td>
-            <td>{{Name}}</td>
-            <td>{{CountryCode}}</td>    
-            <td>{{District}}</td>
-            <td>{{Population}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-    </table>
-    {{/if}} 
-    </script>
+<script id="city-template" type="text/x-handlebars" data-template-name="city-template">     
+{{#if items}}
+<table>
+<thead>
+    <tr><th>Id</th>
+        <th>Name</th>
+        <th>CountryCode</th>
+        <th>District</th>
+        <th>Population</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each items}}
+    <tr>
+        <td>{{Id}}</td>
+        <td>{{Name}}</td>
+        <td>{{CountryCode}}</td>    
+        <td>{{District}}</td>
+        <td>{{Population}}</td>
+    </tr>
+    {{/each}}
+</tbody>
+</table>
+{{/if}} 
+</script>
     
-    <script id="country-template" type="text/x-handlebars" data-template-name="country-template">     
-    {{#if items}}
-    <table>
-    <thead>
-        <tr><th>Name</th>
-            <th>Continent</th>
-            <th>Region</th>
-            <th>Population</th>
-            <th>GNP</th>
-            <th>Capital</th>
-       </tr>
-     </thead>
-     <tbody>
-       {{#each items}}
-       <tr>
-            <td>{{Name}}</td>
-            <td>{{Continent}}</td>
-            <td>{{Region}}</td>    
-            <td>{{Population}}</td>
-            <td>{{GNP}}</td>
-            <td>{{Capital}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-    </table>
-    {{/if}} 
-    </script>    
+<script id="country-template" type="text/x-handlebars" data-template-name="country-template">     
+{{#if items}}
+<table>
+<thead>
+    <tr><th>Name</th>
+        <th>Continent</th>
+        <th>Region</th>
+        <th>Population</th>
+        <th>GNP</th>
+        <th>Capital</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each items}}
+    <tr>
+        <td>{{Name}}</td>
+        <td>{{Continent}}</td>
+        <td>{{Region}}</td>    
+        <td>{{Population}}</td>
+        <td>{{GNP}}</td>
+        <td>{{Capital}}</td>
+    </tr>
+    {{/each}}
+</tbody>
+</table>
+{{/if}} 
+</script>    
     
-    <script id="pages-template" type="text/x-handlebars" data-template-name="pages-template"> 
-    <span>
+<script id="pages-template" type="text/x-handlebars" data-template-name="pages-template"> 
+<nav class="page">
+    <ul>
     {{#each pages}}
-    <a data-start="{{start}}" data-page="{{number}}" title={{start}} href="http://">{{number}}</a> |
+    <li><a data-start="{{start}}" data-page="{{number}}" title={{start}} href="http://">{{number}}</a></li>
         {{#if isLast}}
             {{#if showNext}}
-                <a id="next" title="{{end}}" data-start="{{end}}" href="http://">Next >></a>
+                <li class="page-next"><a id="next" title="{{end}}" data-start="{{end}}" href="http://">Next &#187;</a></li>
             {{/if}}
         {{/if}}    
     {{/each}}  
     <span>Showing {{total}} items from <span class="category-name">{{name}}</span></span>
-    </span>             
-    </script>
+    </ul>
+</nav>             
+</script>
 
-@Scripts.Render("~/bundles/handlebars")
-@Scripts.Render("~/bundles/index")
+@Scripts.Render("~/scripts/handlebars")
+@Scripts.Render("~/scripts/index")
+<script>
+    (function () {
+        var app = new window.Application();
+        app.start();
+    }());
+    
+</script>

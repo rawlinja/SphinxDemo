@@ -18,28 +18,44 @@ namespace SphinxDemo.WebUI
                         "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/handlebars").Include(
+            bundles.Add(new ScriptBundle("~/scripts/handlebars").Include(
                    "~/Scripts/jquery-2.1.0.js",
                    "~/Scripts/handlebars-1.1.2.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/ember").Include(
+            bundles.Add(new ScriptBundle("~/scripts/ember").Include(
                         "~/Scripts/jquery-2.1.0.js",
                         "~/Scripts/handlebars-1.1.2.js",
                         "~/Scripts/ember-1.4.0.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/app").Include(
+            bundles.Add(new ScriptBundle("~/scripts/app").Include(
                         "~/Scripts/app.js",
                         "~/Scripts/router.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/index").Include(
+            bundles.Add(new ScriptBundle("~/scripts/index").Include(
                         "~/Scripts/index.js"));
+
+            bundles.Add(new ScriptBundle("~/scripts/indextest").Include(
+                        "~/Scripts/index-test.js"));
+
+            bundles.Add(new ScriptBundle("~/scripts/jasmine").Include(
+                        "~/Scripts/jasmine.js",
+                        "~/Scripts/jasmine-html.js",
+                        "~/Scripts/console.js",
+                        "~/Scripts/boot.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/css/jasmine").Include(
+                "~/Content/css/jasmine.css"
+                ));
+            bundles.Add(new StyleBundle("~/css/site").Include(
+                "~/Content/css/reset.css",
+                "~/Content/css/typography.css",
+                "~/Content/css/grid.css",
+                "~/Content/css/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
